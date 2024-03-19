@@ -16,16 +16,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('Pa$$w0rd'),
-        ]);
-
-        // $this->call([
-        //     UserSeeder::class,
-        //     CourseSeeder::class,
-        //     ReservationSeeder::class
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Admin',
+        //     'admin' => true,
+        //     'email' => 'admin@admin.com',
+        //     'password' => Hash::make('Pa$$w0rd'),
         // ]);
+
+        $this->call([
+            UserSeeder::class,
+            CourseSeeder::class,
+            ReservationSeeder::class
+        ]);
     }
 }
