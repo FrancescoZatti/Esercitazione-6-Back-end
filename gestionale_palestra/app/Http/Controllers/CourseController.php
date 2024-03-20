@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -13,8 +15,14 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::all();
-        return $courses;
+        $user = Auth::user();
+
+        if (Auth::check()) {
+            $courses = Course::all();
+            return view('courses', ['courses' => $courses], ['user' => $user]);
+        } else {
+            return redirect()->route('login');
+        }
     }
 
     /**
