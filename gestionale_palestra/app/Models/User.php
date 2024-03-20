@@ -46,10 +46,10 @@ class User extends Authenticatable
     ];
 
     public function course(): HasMany {
-        return $this->hasMany(Course::class);
+        return $this->hasMany(Course::class, 'users_id');
     }
 
     public function reservation(): HasManyThrough {
-        return $this->hasManyThrough(Reservation::class, Course::class);
+        return $this->hasManyThrough(Reservation::class, Course::class, 'users_id', 'course_id', 'id', 'id');
     }
 }

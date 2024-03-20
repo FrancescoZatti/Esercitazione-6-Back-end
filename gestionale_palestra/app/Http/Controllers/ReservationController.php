@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -13,7 +15,15 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        if ($user->admin == 1) {
+            $reservations = Reservation::with('course', 'user')->get();
+        } else {
+            $reservations = Reservation::where('user_id', $user->id)->with('course', 'user')->get();
+        }
+
+        return view('reservations', ['reservations' => $reservations, 'user' => $user]);
     }
 
     /**
