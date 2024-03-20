@@ -19,11 +19,11 @@ class ReservationController extends Controller
 
         if ($user->admin == 1) {
             $reservations = Reservation::with('course', 'user')->get();
+            return view('reservationadmin', ['reservation' => $reservations, 'user' => $user]);
         } else {
-            $reservations = Reservation::where('user_id', $user->id)->with('course', 'user')->get();
+            $reservations = Reservation::where('users_id', $user->id)->with('course', 'user')->get();
+            return view('reservationuser', ['reservation' => $reservations, 'user' => $user]);
         }
-
-        return view('reservations', ['reservations' => $reservations, 'user' => $user]);
     }
 
     /**
@@ -69,8 +69,7 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Reservation $reservation)
-    {
-        //
-    }
+    public function destroy(Reservation $reservation){
+        $reservation->delete();
+        return redirect()->back()->with('success', 'Prenotazione eliminata con successo.');}
 }
